@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   MediConsent design system
+   Navy #082F49 · Teal #0D9488 · Surface #F8FAFC · Ink #1E293B · Muted #64748B
+   ========================================================================== */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-ink antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-semibold text-navy-900;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-teal-500 ring-offset-2;
+  }
+
+  /* Slim scrollbars for sidebar / dropdown panels */
+  .scroll-slim::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scroll-slim::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300;
+  }
+  .scroll-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  /* ---------- Buttons ---------- */
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg
+      px-4 py-2 text-sm font-medium transition-colors duration-150
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2
+      disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-navy-900 text-white hover:bg-navy-800 active:bg-navy-950;
+  }
+  .btn-accent {
+    @apply btn bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800;
+  }
+  .btn-secondary {
+    @apply btn border border-navy-100 bg-navy-50 text-navy-800 hover:bg-navy-100;
+  }
+  .btn-outline {
+    @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 active:bg-slate-100;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-600 hover:bg-slate-100 hover:text-navy-900;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 active:bg-red-800;
+  }
+  .btn-success {
+    @apply btn bg-emerald-600 text-white hover:bg-emerald-700 active:bg-emerald-800;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .btn-lg {
+    @apply px-5 py-2.5 text-base;
+  }
+  .btn-icon {
+    @apply btn h-9 w-9 rounded-lg p-0;
+  }
+
+  /* ---------- Surfaces ---------- */
+  .card {
+    @apply rounded-xl2 border border-slate-200 bg-white shadow-card;
+  }
+  .card-hover {
+    @apply transition-shadow duration-150 hover:shadow-card-hover;
+  }
+  .card-header {
+    @apply flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-5 py-4;
+  }
+  .card-body {
+    @apply p-5;
+  }
+  .card-footer {
+    @apply border-t border-slate-200 px-5 py-4;
+  }
+
+  /* ---------- Forms ---------- */
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+  }
+  .input {
+    @apply block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-ink
+      shadow-sm transition-colors placeholder:text-slate-400
+      focus:border-teal-500 focus:outline-none focus:ring-1 focus:ring-teal-500
+      disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500;
+  }
+  .input-error {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-500;
+  }
+  .hint {
+    @apply mt-1.5 text-xs text-muted;
+  }
+  .error-text {
+    @apply mt-1.5 flex items-center gap-1 text-xs font-medium text-red-600;
+  }
+
+  /* ---------- Tables ---------- */
+  .table-wrapper {
+    @apply w-full overflow-x-auto;
+  }
+  .table {
+    @apply w-full min-w-[720px] border-collapse text-left text-sm;
+  }
+  .table thead th {
+    @apply whitespace-nowrap border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-semibold
+      uppercase tracking-wide text-muted;
+  }
+  .table tbody td {
+    @apply border-b border-slate-100 px-4 py-3 align-middle text-slate-700;
+  }
+  .table tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  .table tbody tr {
+    @apply transition-colors hover:bg-slate-50/70;
+  }
+
+  /* ---------- Sidebar navigation ---------- */
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300
+      transition-colors duration-150 hover:bg-white/10 hover:text-white;
+  }
+  .sidebar-link-active {
+    @apply bg-white/10 text-white shadow-inner;
+  }
+
+  /* ---------- Misc ---------- */
+  .badge {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+  .divider {
+    @apply h-px w-full bg-slate-200;
+  }
+  .link {
+    @apply font-medium text-teal-700 underline-offset-4 transition-colors hover:text-teal-800 hover:underline;
+  }
+}

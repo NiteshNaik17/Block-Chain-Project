@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Build output
+dist/
+build/
+frontend/dist/
+
+# Backend private encrypted storage (never commit medical data)
+backend/private_uploads/*
+!backend/private_uploads/.gitkeep
+backend/tmp/
+backend/logs/
+*.log
+npm-debug.log*
+
+# Hardhat
+blockchain/artifacts/
+blockchain/cache/
+blockchain/typechain-types/
+blockchain/coverage/
+blockchain/coverage.json
+blockchain/ignition/deployments/
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Misc
+*.pem
+*.key
+*.sqlite
+.cache/

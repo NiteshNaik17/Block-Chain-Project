@@ -1,0 +1,2 @@
+# This directory stores AES-256-GCM encrypted medical files only.
+# It must never be served as a public static folder and its contents are git-ignored.
