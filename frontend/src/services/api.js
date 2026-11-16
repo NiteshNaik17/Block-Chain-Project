@@ -16,7 +16,7 @@ const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
-  timeout: 15000,
+  timeout: 60000,
 });
 
 /** Unwrap the standard `{ success, message, user|data, errors }` envelope. */

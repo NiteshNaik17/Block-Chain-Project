@@ -16,9 +16,24 @@ app.set('trust proxy', 1);
 
 // --- Security & parsing middleware -----------------------------------------
 app.use(helmet());
+
+const clientUrlClean = (env.clientUrl || '').replace(/\/+$/, '');
 app.use(
   cors({
-    origin: env.clientUrl,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const originClean = origin.replace(/\/+$/, '');
+      if (
+        !clientUrlClean ||
+        originClean === clientUrlClean ||
+        originClean.endsWith('.onrender.com') ||
+        originClean.includes('localhost') ||
+        originClean.includes('127.0.0.1')
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
