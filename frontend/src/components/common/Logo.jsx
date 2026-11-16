@@ -13,7 +13,7 @@ const SIZES = {
  * variant="light" is used on dark navy surfaces (sidebar, footer, auth panel).
  */
 export default function Logo({
-  to = '/',
+  to = null,
   size = 'md',
   variant = 'dark',
   showText = true,
@@ -22,7 +22,7 @@ export default function Logo({
   const s = SIZES[size] ?? SIZES.md;
 
   const content = (
-    <>
+    <div className={cn('inline-flex items-center gap-2.5 cursor-default select-none', className)}>
       <span
         className={cn(
           'flex shrink-0 items-center justify-center',
@@ -53,20 +53,20 @@ export default function Logo({
           </span>
         </span>
       )}
-    </>
+    </div>
   );
 
-  if (!to) {
-    return <span className={cn('inline-flex items-center gap-2.5', className)}>{content}</span>;
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className={cn('inline-flex items-center gap-2.5', className)}
+        aria-label="MediConsent"
+      >
+        {content}
+      </Link>
+    );
   }
 
-  return (
-    <Link
-      to={to}
-      className={cn('inline-flex items-center gap-2.5', className)}
-      aria-label="MediConsent home"
-    >
-      {content}
-    </Link>
-  );
+  return content;
 }
