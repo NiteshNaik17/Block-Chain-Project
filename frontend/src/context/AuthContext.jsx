@@ -44,7 +44,12 @@ export function AuthProvider({ children }) {
 
   const registerPatient = useCallback(async (payload) => {
     const created = await authService.registerPatient(payload);
-    setUser(created);
+    try {
+      await authService.logout();
+    } catch {
+      // Ignore logout errors if session was not active
+    }
+    setUser(null);
     return created;
   }, []);
 

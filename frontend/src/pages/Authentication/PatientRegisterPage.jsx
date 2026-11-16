@@ -82,10 +82,8 @@ export default function PatientRegisterPage() {
         confirmPassword: form.confirmPassword,
       });
 
-      // Registration issues the session cookie straight away, so the new
-      // patient is signed in and can continue to their portal.
-      toast.success('Patient account created — you are now signed in.');
-      navigate('/patient/dashboard', { replace: true });
+      toast.success('Registration successful! Please sign in with your email and password.');
+      navigate('/login', { replace: true, state: { email: form.email.trim() } });
     } catch (error) {
       const backendErrors = fieldErrorsFrom(error);
       const mapped = {};
