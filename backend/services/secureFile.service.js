@@ -49,7 +49,11 @@ export async function storeEncryptedFile({ buffer, scope }) {
 
   // 3. Ciphertext-only, server-named write.
   const fileReference = createStorageReference(scope);
-  await saveEncryptedFile(fileReference, ciphertext);
+  try {
+    await saveEncryptedFile(fileReference, ciphertext);
+  } catch (storageErr) {
+    console.warn(`[SecureStorage] Disk write warning: ${storageErr.message}`);
+  }
 
   // 4. Safe metadata for MongoDB.
   return {
@@ -61,6 +65,7 @@ export async function storeEncryptedFile({ buffer, scope }) {
     encryptionVersion: version ?? ENCRYPTION_VERSION,
     // The size shown to the user is the size of their original file.
     fileSize: plainBuffer.length,
+    encryptedData: ciphertext,
   };
 }
 
@@ -69,7 +74,7 @@ export async function storeEncryptedFile({ buffer, scope }) {
  * Throws a generic, non-revealing error when the reference is missing, the
  * ciphertext was tampered with, or the digest does not match.
  *
- * @param {{fileReference: string, encryptionIv: string, authTag: string, integrityHash: string}} record
+ * @param {{fileReference: string, encryptionIv: string, authTag: string, integrityHash: string, encryptedData?: Buffer}} record
  * @returns {Promise<Buffer>} verified plaintext (in memory only)
  */
 export async function readVerifiedFile(record) {
@@ -77,7 +82,17 @@ export async function readVerifiedFile(record) {
     throw httpError(404, 'This medical document is not available.', 'FILE_NOT_AVAILABLE');
   }
 
-  const ciphertext = await readEncryptedFile(record.fileReference);
+  let ciphertext;
+  try {
+    ciphertext = await readEncryptedFile(record.fileReference);
+  } catch (storageErr) {
+    // Fallback: If disk was reset on ephemeral cloud container (Render/Heroku), check database buffer
+    if (record.encryptedData && Buffer.isBuffer(record.encryptedData)) {
+      ciphertext = record.encryptedData;
+    } else {
+      throw storageErr;
+    }
+  }
 
   // GCM verification happens here: a tampered ciphertext, a tampered tag or a
   // wrong key cannot produce plaintext.

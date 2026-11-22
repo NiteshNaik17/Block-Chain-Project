@@ -538,6 +538,7 @@ export async function createMedicalRecord(patientId, { file, fields = {} } = {})
       authTag: stored.authTag,
       encryptionAlgorithm: stored.encryptionAlgorithm,
       encryptionVersion: stored.encryptionVersion,
+      encryptedData: stored.encryptedData,
       encryptionStatus: 'encrypted',
       recordStatus: 'active',
     });

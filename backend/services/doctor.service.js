@@ -821,6 +821,7 @@ export async function uploadDoctorCertificate(doctorId, file) {
       authTag: stored.authTag,
       encryptionAlgorithm: stored.encryptionAlgorithm,
       encryptionVersion: stored.encryptionVersion,
+      encryptedData: stored.encryptedData,
       uploadedAt: new Date(),
     };
     await doctor.save();

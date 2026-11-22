@@ -121,6 +121,12 @@ const medicalRecordSchema = new mongoose.Schema(
       default: null,
     },
 
+    // Ciphertext payload backup for cloud deployments with ephemeral storage (Render/Heroku)
+    encryptedData: {
+      type: Buffer,
+      default: null,
+    },
+
     encryptionStatus: {
       type: String,
       enum: { values: ENCRYPTION_STATUSES, message: 'Encryption status is not valid' },
