@@ -61,8 +61,8 @@ const paginationRules = [
   query('page').optional({ values: 'falsy' }).isInt({ min: 1 }).withMessage('page must be a positive integer'),
   query('limit')
     .optional({ values: 'falsy' })
-    .isInt({ min: 1, max: 50 })
-    .withMessage('limit must be between 1 and 50'),
+    .isInt({ min: 1, max: 100 })
+    .withMessage('limit must be between 1 and 100'),
 ];
 
 const dateRangeRules = [

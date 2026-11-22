@@ -149,18 +149,25 @@ export default function DoctorAccessRequests() {
     setRecordsStatus('loading');
     setRecordsError('');
 
-    fetchRecords({ limit: 100 })
+    fetchRecords({ limit: 50 })
       .then((response) => {
         if (!active) return;
-        const requestedCategories = reviewTarget.requestedCategories ?? [];
+        const requestedCategories = (reviewTarget.requestedCategories ?? []).map((c) =>
+          String(c).toLowerCase().trim()
+        );
         const rows = response.records ?? [];
         const matching =
           requestedCategories.length === 0
             ? rows
-            : rows.filter((record) => requestedCategories.includes(record.category));
+            : rows.filter((record) =>
+                requestedCategories.includes(String(record.category).toLowerCase().trim())
+              );
 
-        setAvailableRecords(matching);
-        setSelectedRecordIds((prev) => (prev.length > 0 ? prev : matching.map((r) => r.id)));
+        // Prefer matching category records, or fall back to all vault records
+        const recordsToShow = matching.length > 0 ? matching : rows;
+
+        setAvailableRecords(recordsToShow);
+        setSelectedRecordIds((prev) => (prev.length > 0 ? prev : recordsToShow.map((r) => r.id)));
         setRecordsStatus('ready');
       })
       .catch((err) => {
@@ -628,6 +635,19 @@ export default function DoctorAccessRequests() {
                 <p className="mb-3 text-xs text-muted">
                   Only records that belong to you can be selected.
                 </p>
+
+                {recordsStatus === 'loading' && (
+                  <div className="flex items-center justify-center py-8">
+                    <div className="h-6 w-6 animate-spin rounded-full border-2 border-teal-600 border-t-transparent" />
+                    <span className="ml-2.5 text-xs text-muted">Loading your medical records...</span>
+                  </div>
+                )}
+
+                {recordsStatus === 'error' && (
+                  <div className="rounded-xl2 border border-red-200 bg-red-50 p-4 text-xs text-red-700">
+                    {recordsError || 'Could not load your medical records.'}
+                  </div>
+                )}
 
                 {recordsStatus === 'ready' && availableRecords.length > 0 && (
                   <div className="max-h-64 space-y-2 overflow-y-auto">
