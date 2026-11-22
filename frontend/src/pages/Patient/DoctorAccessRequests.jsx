@@ -5,9 +5,11 @@ import {
   Calendar,
   CheckCircle2,
   Clock,
+  FileText,
   Info,
   ShieldAlert,
   ShieldCheck,
+  Upload,
   Wallet,
   XCircle,
 } from 'lucide-react';
@@ -627,7 +629,7 @@ export default function DoctorAccessRequests() {
                   Only records that belong to you can be selected.
                 </p>
 
-                {recordsStatus === 'ready' && (
+                {recordsStatus === 'ready' && availableRecords.length > 0 && (
                   <div className="max-h-64 space-y-2 overflow-y-auto">
                     {availableRecords.map((record) => {
                       const checked = selectedRecordIds.includes(record.id);
@@ -657,6 +659,22 @@ export default function DoctorAccessRequests() {
                         </label>
                       );
                     })}
+                  </div>
+                )}
+
+                {recordsStatus === 'ready' && availableRecords.length === 0 && (
+                  <div className="rounded-xl2 border border-dashed border-slate-300 bg-slate-50 p-5 text-center">
+                    <FileText size={28} className="mx-auto text-slate-400" />
+                    <p className="mt-2 text-sm font-semibold text-navy-900">No medical records in your vault</p>
+                    <p className="mt-1 text-xs text-muted max-w-sm mx-auto">
+                      You must upload at least one medical record to your vault before you can grant a doctor access.
+                    </p>
+                    <Link
+                      to="/patient/records"
+                      className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-teal-700"
+                    >
+                      <Upload size={14} /> Go to Medical Records to Upload
+                    </Link>
                   </div>
                 )}
                 {selectionError && <p className="mt-2 text-xs text-red-600">{selectionError}</p>}

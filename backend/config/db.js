@@ -1,6 +1,14 @@
+import dns from 'dns';
 import mongoose from 'mongoose';
 
 import env from './env.js';
+
+// Ensure DNS SRV queries resolve reliably on all platforms (including Windows local ISPs)
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // fallback to system default
+}
 
 /**
  * MongoDB connection module.
